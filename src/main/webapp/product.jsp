@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="market.dto.Product" %>
 <%@ page import = "market.dao.ProductRepository" %>
+<%@ page errorPage="errorPage/exceptionNoProductId.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,6 +24,10 @@
 	%>
 	<div class="container">
 		<div class="row">
+			<div class="col-md-5">
+				<img src="${pageContext.request.contextPath}/resources/images/<%= product.getFilename() %>"
+					style="width: 100%" alt="">
+			</div>
 			<div class="col-md-6">
 				<h3><%= product.getPname() %></h3>
 				<p><%= product.getDescription() %></p>

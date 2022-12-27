@@ -1,21 +1,50 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.oreilly.servlet.*" %>
+<%@ page import="com.oreilly.servlet.multipart.*" %>
+<%@ page import="java.util.*" %>
+<%@ page import="java.io.*" %>
 <%@ page import="market.dto.Product" %>
 <%@ page import="market.dao.ProductRepository" %>
-
+<%@ page import="java.awt.*" %>
 <%
 // 기본 세팅 (인코딩)
 request.setCharacterEncoding("UTF-8");
 
+// 저장될 위치 정해주기
+String realPath = request.getServletContext().getRealPath("resources/images");
+File dir = new File(realPath);
+if(!dir.exists()){ // 만약 해당 디렉토리(경로)가 존재하지 않으면
+	dir.mkdirs(); // 해당 경로를 만들어주기
+}
+
+// 디렉토리 열기
+if(!Desktop.isDesktopSupported()){
+	return;
+}
+Desktop desktop = Desktop.getDesktop();
+if(dir.exists()){
+	desktop.open(dir);
+}
+
+
+String filename = ""; // 업로드된 파일명
+String encType="utf-8"; // 인코딩 타입
+int maxSize = 5 * 1024 * 1024; // 최대 파일 크기 (5MB)
+
+// MultipartRequest 객체 생성 (request로 전달받은 값들을 포함하는 객체)
+MultipartRequest muti = new MultipartRequest(request, realPath, maxSize, encType,
+		new DefaultFileRenamePolicy());
+
 // 파라미터 받아오기
-String productId = request.getParameter("productId");
-String name = request.getParameter("name");
-String unitPrice = request.getParameter("unitPrice");
-String description = request.getParameter("description");
-String manufacturer = request.getParameter("manufacturer");
-String category = request.getParameter("category");
-String unitsInStock = request.getParameter("unitsInStock");
-String condition = request.getParameter("condition");
+String productId = muti.getParameter("productId");
+String name = muti.getParameter("name");
+String unitPrice = muti.getParameter("unitPrice");
+String description = muti.getParameter("description");
+String manufacturer = muti.getParameter("manufacturer");
+String category = muti.getParameter("category");
+String unitsInStock = muti.getParameter("unitsInStock");
+String condition = muti.getParameter("condition");
 
 // 가격 형변환
 Integer price;
@@ -25,6 +54,11 @@ else price = Integer.valueOf(unitPrice);
 long stock;
 if(unitsInStock.isEmpty()) stock = 0;
 else stock = Long.valueOf(unitsInStock);
+
+// input태그의 type="file"인 request 전달받아 저장
+Enumeration files = muti.getFileNames();
+String fname = (String) files.nextElement(); // 파라미터 name 불러오기
+String fileName = muti.getFilesystemName(fname); // 디렉토리에 저장될 파일명
 
 // ProductDAO 싱글톤 객체 불러오기
 ProductRepository dao = ProductRepository.getInstance();
@@ -40,6 +74,7 @@ newProduct.setManufacturer(manufacturer);
 newProduct.setCategory(category);
 newProduct.setUnitsInStock(stock);
 newProduct.setCondition(condition);
+newProduct.setFilename(fileName);
 
 // 상품 리스트에 새 상품 정보 추가
 dao.addProduct(newProduct);
