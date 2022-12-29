@@ -9,12 +9,22 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
 <title>상품 상세 정보</title>
+<script type="text/javascript">
+	function addToCart(){
+		if(confirm("상품을 장바구니에 추가하시겠습니까?")){
+			document.addForm.submit(); // 장바구니에 추가
+		}
+		else {
+			document.addForm.reset(); // 영향x
+		}
+	}
+</script>
 </head>
 <body>
 	<jsp:include page="menu.jsp"/>
 	<div class="jumbotron">
 		<div class="container">
-			<h1 class="display-3">상품목록</h1>
+			<h1 class="display-3">상품 정보</h1>
 		</div>
 	</div>
 	<%
@@ -36,8 +46,12 @@
 				<p><b>분류</b> : <%= product.getCategory() %></p>
 				<p><b>재고 수</b> : <%= product.getUnitsInStock() %></p>
 				<h4><%= product.getUnitPrice() %>원</h4>
-				<p><a href="#" class="btn btn-info"> 상품 주문 &raquo;</a></p>
-				<a href="./products.jsp" class="btn btn-secondary"> 상품 목록 &raquo;</a>
+				<form name="addForm" action="./addCart.jsp" method="post">
+					<input type="hidden" name="id" value="<%= product.getProductId() %>">
+					<span class="btn btn-info" onclick="addToCart()"> 상품 주문 &raquo;</span>
+					<a href="./cart.jsp" class="btn btn-warning">장바구니 &raquo;</a>
+					<a href="./products.jsp" class="btn btn-secondary"> 상품 목록 &raquo;</a>
+				</form>
 			</div>
 		</div>
 		<hr>
