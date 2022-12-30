@@ -29,11 +29,10 @@ if(list == null){
 }
 
 boolean isUpdate = false; //  기존 장바구니에 담긴 상품인지 확인하기 위한 용도 (true-> 있는 상품)
-Product goodsQnt = new Product();
 for(Product p : list){
 	if(p.getProductId().equals(id)){// 기존 장바구니에 담긴 상품이라면
 		isUpdate = true;
-		goodsQnt.setQuantity(goodsQnt.getQuantity() + 1); // 기존 개수 + 1
+		p.setQuantity(p.getQuantity() + 1); // 기존 개수 + 1
 	}
 }
 if(!isUpdate){ // 장바구니에 담기지 않은 새 상품이라면

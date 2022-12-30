@@ -12,8 +12,12 @@
  String cartId = session.getId();
 %>
 <title>장바구니</title>
+
 </head>
 <body>
+	<form method="post" name="frmCart">
+		<input type="hidden" name="id">
+	</form>
 	<jsp:include page="menu.jsp"/>
 	<div class="jumbotron">
 		<div class="container">
@@ -24,8 +28,8 @@
 		<div class="row">
 			<table width="100%">
 				<tr>
-					<td align="left"><a href="./deleteCart.jsp?cartId=<%=cartId%>" class="btn btn-danger">삭제하기</a></td>
-					<td align="right"><a href="#" class="btn btn-success">주문하기</a></td>
+					<td align="left"><span class="btn btn-danger" onclick="deleteCart()">삭제하기</span></td>
+					<td align="right"><a href="./shippingInfo.jsp?cartId=<%= cartId %>" class="btn btn-success">주문하기</a></td>
 				</tr>
 			</table>
 		</div>
@@ -56,7 +60,7 @@
 					<td><%= product.getUnitPrice() %></td>
 					<td><%= product.getQuantity() %></td>
 					<td><%= total %></td>
-					<td><a href="./removeCart.jsp?id=<%= product.getProductId() %>" class="badge badge-danger">삭제</a></td>
+					<td><span class="badge badge-danger" id="removeBtn" onclick="removeToCart('<%= product.getProductId() %>')">삭제</span></td>
 				</tr>
 				<%
 				}
@@ -73,5 +77,22 @@
 		</div>
 	</div>
 	<jsp:include page="footer.jsp"/>
+<script type="text/javascript">
+	const form = document.frmCart;
+	const removeBtn = document.getElementById("removeBtn");
+	function removeToCart(removeId){
+		if(confirm("장바구니에서 상품을 삭제하시겠습니까?")){
+			form.id.value = removeId;
+			form.action = "removeCart.jsp";
+			form.submit(); // 장바구니에서 삭제
+		}
+	}
+	function deleteCart(){
+		if(confirm("장바구니에서 상품을 삭제하시겠습니까?")){
+			form.action = "deleteCart.jsp";
+			form.submit(); // 장바구니에서 삭제
+		}
+	}
+</script>
 </body>
 </html>
