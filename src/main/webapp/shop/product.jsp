@@ -2,12 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ page import="market.dto.Product" %>
 <%@ page import = "market.dao.ProductRepository" %>
-<%@ include file="./resources/DB/connDB.jsp" %>
+<%@ include file="../resources/DB/connDB.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="./resources/css/bootstrap.min.css">
+<link rel="stylesheet" href="../resources/css/bootstrap.min.css">
 <title>상품 상세 정보</title>
 <script type="text/javascript">
 	function addToCart(){
@@ -21,7 +21,7 @@
 </script>
 </head>
 <body>
-	<jsp:include page="menu.jsp"/>
+	<jsp:include page="../inc/menu.jsp"/>
 	<div class="jumbotron">
 		<div class="container">
 			<h1 class="display-3">상품 정보</h1>
@@ -61,8 +61,8 @@
 	</div>
 	<%
 	}
-	else response.sendRedirect("errorPage/exceptionNoProductId.jsp");
+	else response.sendRedirect("../errorPage/exceptionNoProductId.jsp");
 	%>
-	<jsp:include page="footer.jsp"/>
+	<jsp:include page="../inc/footer.jsp"/>
 </body>
 </html>

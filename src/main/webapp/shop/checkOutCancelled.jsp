@@ -4,11 +4,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="./resources/css/bootstrap.min.css" />
+<link rel="stylesheet" href="../resources/css/bootstrap.min.css" />
 <title>주문 취소</title>
 </head>
 <body>
-	<jsp:include page="menu.jsp" />
+	<jsp:include page="../inc/menu.jsp" />
 	<div class="jumbotron">
 		<div class="container">
 			<h1 class="display-3">주문 취소</h1>

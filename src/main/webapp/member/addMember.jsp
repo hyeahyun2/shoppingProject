@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
-<link rel="stylesheet" href="./resources/css/bootstrap.min.css" />
+<link rel="stylesheet" href="../resources/css/bootstrap.min.css" />
 <script type="text/javascript">
 	function checkForm() {
 		if (!document.newMember.id.value) {
@@ -24,7 +24,7 @@
 <title>회원 가입</title>
 </head>
 <body>
-	<jsp:include page="./menu.jsp" />
+	<jsp:include page="../inc/menu.jsp" />
 	<div class="jumbotron">
 		<div class="container">
 			<h1 class="display-3">회원 가입</h1>
@@ -42,13 +42,13 @@
 			<div class="form-group  row">
 				<label class="col-sm-2">비밀번호</label>
 				<div class="col-sm-3">
-					<input name="password" type="text" class="form-control" placeholder="password" >
+					<input name="password" type="password" class="form-control" placeholder="password" >
 				</div>
 			</div>
 			<div class="form-group  row">
 				<label class="col-sm-2">비밀번호확인</label>
 				<div class="col-sm-3">
-					<input name="password_confirm" type="text" class="form-control" placeholder="password confirm" >
+					<input name="password_confirm" type="password" class="form-control" placeholder="password confirm" >
 				</div>
 			</div>
 			<div class="form-group  row">

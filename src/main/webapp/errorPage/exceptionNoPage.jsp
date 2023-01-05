@@ -4,11 +4,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="./resources/css/bootstrap.min.css">
+<link rel="stylesheet" href="../resources/css/bootstrap.min.css">
 <title>Insert title here</title>
 </head>
 <body>
-	<jsp:include page="../menu.jsp"/>
+	<jsp:include page="../inc/menu.jsp"/>
 	<div class="jumbotron">
 		<div class="container">
 			<h1 class="alert alert-danger">요청하신 페이지를 찾을 수 없습니다.</h1>
@@ -16,8 +16,8 @@
 	</div>
 	<div class="container">
 		<p><%= request.getRequestURL() %></p>
-		<p><a href="./products.jsp" class="btn btn-secondary">상품 목록 &raquo;</a></p>
+		<p><a href="../shop/products.jsp" class="btn btn-secondary">상품 목록 &raquo;</a></p>
 	</div>
-	<jsp:include page="../footer.jsp"/>
+	<jsp:include page="../inc/footer.jsp"/>
 </body>
 </html>

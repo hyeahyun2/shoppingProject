@@ -4,13 +4,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="./resources/css/bootstrap.min.css">
+<link rel="stylesheet" href="../resources/css/bootstrap.min.css">
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> -->
 <meta charset="UTF-8">
 <title>Welcome</title>
 </head>
 <body>
-	<%@ include file="./menu.jsp" %>
+	<%@ include file="../inc/menu.jsp" %>
 	<%! 
 	String greeting = "웹 쇼핑몰에 오신 것을 환영합니다";
 	String tagline = "Welcome to Web Market!";
@@ -42,6 +42,6 @@
 		</div>
 		<hr>
 	</div>
-	<%@ include file="./footer.jsp" %>
+	<%@ include file="../inc/footer.jsp" %>
 </body>
 </html>

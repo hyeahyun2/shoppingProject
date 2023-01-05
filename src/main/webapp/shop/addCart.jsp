@@ -16,7 +16,7 @@ ProductRepository dao = ProductRepository.getInstance();
 
 Product product = dao.getProductById(id); // 등록된 상품인지 확인
 if(product == null){ // 미등록 상품이라면
-	response.sendRedirect("errorPage/exceptionNoProductId.jsp"); // 미등록상품 에러 페이지로 이동
+	response.sendRedirect("../errorPage/exceptionNoProductId.jsp"); // 미등록상품 에러 페이지로 이동
 }
 
 /* 요청 파라미터 아이디의 상품을 담은 장바구니를 초기화 하도록 설정 */

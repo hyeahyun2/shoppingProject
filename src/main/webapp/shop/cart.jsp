@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="./resources/css/bootstrap.min.css">
+<link rel="stylesheet" href="../resources/css/bootstrap.min.css">
 <%
  String cartId = session.getId();
 %>
@@ -18,7 +18,7 @@
 	<form method="post" name="frmCart">
 		<input type="hidden" name="id">
 	</form>
-	<jsp:include page="menu.jsp"/>
+	<jsp:include page="../inc/menu.jsp"/>
 	<div class="jumbotron">
 		<div class="container">
 			<h1 class="display-3">장바구니</h1>
@@ -76,7 +76,7 @@
 			<a href="./products.jsp" class="btn btn-secondary">&laquo; 쇼핑 계속하기</a>
 		</div>
 	</div>
-	<jsp:include page="footer.jsp"/>
+	<jsp:include page="../inc/footer.jsp"/>
 <script type="text/javascript">
 	const form = document.frmCart;
 	const removeBtn = document.getElementById("removeBtn");

@@ -4,12 +4,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="./resources/css/bootstrap.min.css">
-<script src="./resources/js/validation.js"></script>
+<link rel="stylesheet" href="../resources/css/bootstrap.min.css">
+<script src="../resources/js/validation.js"></script>
 <title>상품 등록</title>
 </head>
 <body>
-	<jsp:include page="menu.jsp"/>
+	<jsp:include page="../inc/menu.jsp"/>
 	<div class="jumbotron">
 		<div class="container">
 			<h1 class="display-3">상품 등록</h1>
@@ -84,6 +84,6 @@
 			</div>
 		</form>
 	</div>
-	<jsp:include page="footer.jsp"/>
+	<jsp:include page="../inc/footer.jsp"/>
 </body>
 </html>

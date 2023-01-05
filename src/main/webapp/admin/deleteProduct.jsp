@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="./resources/DB/connDB.jsp" %>
+<%@ include file="../resources/DB/connDB.jsp" %>
 <%
 // 기본 세팅
 request.setCharacterEncoding("utf-8");
@@ -26,7 +26,7 @@ try {
 	}
 	else { // 존재하지 않는 id값
 		// 에러 페이지로 이동
-		response.sendRedirect("errerPage/exceptionNoProductId.jsp");
+		response.sendRedirect("../errerPage/exceptionNoProductId.jsp");
 	}
 } catch(Exception e) {
 	e.printStackTrace();
