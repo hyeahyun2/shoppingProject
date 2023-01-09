@@ -2,9 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.net.URLDecoder"%>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="market.dto.Product" %>
+<%@ page import="market.dto.ProductDto" %>
 <%@ page import="market.dao.ProductRepository" %>
 <%
+p
+
 request.setCharacterEncoding("utf-8");
 String cartId = session.getId();
 
@@ -23,23 +25,23 @@ if(cookies != null){
 		String n = thisCookie.getName();
 		switch(n){
 		case "Shipping_cartId":
-			shipping_cartId = URLDecoder.decode((thisCookie.getValue()), "utf-8");
-			break;
+	shipping_cartId = URLDecoder.decode((thisCookie.getValue()), "utf-8");
+	break;
 		case "Shipping_name":
-			shipping_name = URLDecoder.decode((thisCookie.getValue()), "utf-8");
-			break;
+	shipping_name = URLDecoder.decode((thisCookie.getValue()), "utf-8");
+	break;
 		case "Shipping_shippingDate":
-			shipping_shippingDate = URLDecoder.decode((thisCookie.getValue()), "utf-8");
-			break;
+	shipping_shippingDate = URLDecoder.decode((thisCookie.getValue()), "utf-8");
+	break;
 		case "Shipping_country":
-			shipping_country = URLDecoder.decode((thisCookie.getValue()), "utf-8");
-			break;
+	shipping_country = URLDecoder.decode((thisCookie.getValue()), "utf-8");
+	break;
 		case "Shipping_zipCode":
-			shipping_zipCode = URLDecoder.decode((thisCookie.getValue()), "utf-8");
-			break;
+	shipping_zipCode = URLDecoder.decode((thisCookie.getValue()), "utf-8");
+	break;
 		case "Shipping_addressName":
-			shipping_addressName = URLDecoder.decode((thisCookie.getValue()), "utf-8");
-			break;
+	shipping_addressName = URLDecoder.decode((thisCookie.getValue()), "utf-8");
+	break;
 		}
 	}
 }
@@ -65,13 +67,28 @@ if(cookies != null){
 		<div class="row justify-content-between">
 			<div class="col-4" align="left">
 				<strong>배송 주소</strong> <br>
-				성명 : <% out.println(shipping_name); %> <br>
-				우편번호 : <% out.println(shipping_zipCode); %> <br>
-				주소 : <% out.println(shipping_addressName); %>
-					(<% out.println(shipping_country); %>)<br>
+				성명 : <%
+ p
+  out.println(shipping_name)
+ %> <br>
+				우편번호 : <%
+ p
+  out.println(shipping_zipCode)
+ %> <br>
+				주소 : <%
+ p
+  out.println(shipping_addressName)
+ %>
+					(<%
+ p
+  out.println(shipping_country)
+ %>)<br>
 			</div>
 			<div class="col-4" align="right">
-				<p><em>배송일 : <% out.println(shipping_shippingDate); %></em></p>
+				<p><em>배송일 : <%
+				p
+				 out.println(shipping_shippingDate)
+				%></em></p>
 			</div>
 		</div>
 		<div>
@@ -83,16 +100,18 @@ if(cookies != null){
 					<th class="text-center">소계</th>
 				</tr>
 				<%
-				int sum = 0; // 모든 상품 합계
-				ArrayList<Product> cartList = (ArrayList<Product>) session.getAttribute("cartlist");
-				if(cartList == null){
-					cartList = new ArrayList<Product>();
-				}
-				
-				for(Product product : cartList){
-					// 한 상품의 토탈값 = 상품가격 * 개수
-					int total = product.getUnitPrice() * product.getQuantity();
-					sum += total;
+				p
+
+						int sum = 0; // 모든 상품 합계
+						ArrayList<ProductDto> cartList = (ArrayList<ProductDto>) session.getAttribute("cartlist");
+						if(cartList == null){
+							cartList = new ArrayList<ProductDto>();
+						}
+						
+						for(ProductDto product : cartList){
+							// 한 상품의 토탈값 = 상품가격 * 개수
+							int total = product.getUnitPrice() * product.getQuantity();
+							sum += total;
 				%>
 				<tr>
 					<td class="text-center"><em><%= product.getPname() %></em></td>

@@ -28,6 +28,16 @@
 		</div>
 	</div>
 	<%
+	String errorMessage = request.getParameter("errorMessage");
+	if(errorMessage != null){
+	%>
+	<div class="alert alert-danger" role="alert">
+	  장바구니 등록에 실패했습니다! 다시 시도해주세요!
+	</div>
+	<%
+	}
+	%>
+	<%
 	String id = request.getParameter("id");
 	String sql = "select * from product where p_id = ?";
 	pstmt = conn.prepareStatement(sql);

@@ -1,6 +1,6 @@
 package market.dto;
 
-public class Product {
+public class ProductDto {
 	private String productId; // 상품 아이디
 	private String pname; // 상품명
 	private Integer unitPrice; // 상품 가격
@@ -10,13 +10,12 @@ public class Product {
 	private long unitsInStock; // 재고수
 	private String condition; // 신상품 or 중고품 or 재생품 등의 상태
 	private String filename; // 이미지 파일명
-	private int quantity; // 장바구니에 담은 개수
 	
 	// 생성자
-	public Product() {
+	public ProductDto() {
 		super();
 	}
-	public Product(String productId, String pname, Integer unitPrice) {
+	public ProductDto(String productId, String pname, Integer unitPrice) {
 		this.productId = productId;
 		this.pname = pname;
 		this.unitPrice = unitPrice;
@@ -76,11 +75,5 @@ public class Product {
 	}
 	public void setFilename(String filename) {
 		this.filename = filename;
-	}
-	public int getQuantity() {
-		return quantity;
-	}
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
 	}
 }

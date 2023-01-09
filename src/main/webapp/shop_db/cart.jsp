@@ -2,14 +2,16 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="market.dto.ProductDto" %>
-<%@ page import="market.dao.ProductRepository" %>
+<%@ page import="market.dao.ProductDao" %>
+<%@ page import="market.dto.CartDto" %>
+<%@ page import="market.dao.CartDao" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="../resources/css/bootstrap.min.css">
 <%
-String cartId = session.getId();
+String orderNo = session.getId();
 %>
 <title>장바구니</title>
 
@@ -23,13 +25,13 @@ String cartId = session.getId();
 		<div class="container">
 			<h1 class="display-3">장바구니</h1>
 		</div>
-	</div>
+	</div> 
 	<div class="container">
 		<div class="row">
 			<table width="100%">
 				<tr>
 					<td align="left"><span class="btn btn-danger" onclick="deleteCart()">삭제하기</span></td>
-					<td align="right"><a href="./shippingInfo.jsp?cartId=<%=cartId%>" class="btn btn-success">주문하기</a></td>
+					<td align="right"><a href="./shippingInfo.jsp?cartId=<%=orderNo%>" class="btn btn-success">주문하기</a></td>
 				</tr>
 			</table>
 		</div>
@@ -43,25 +45,20 @@ String cartId = session.getId();
 					<th>비고</th>
 				</tr>
 				<%
+				int sum = 0;
+				CartDao cartDao = new CartDao();
 
-						int sum = 0; // 모든 상품 합계
-						ArrayList<ProductDto> cartList = (ArrayList<ProductDto>) session.getAttribute("cartlist");
-						if(cartList == null){
-							cartList = new ArrayList<ProductDto>();
-							session.setAttribute("cartlist", cartList);
-						}
-						
-						for(ProductDto product : cartList){
-							// 한 상품의 토탈값 = 상품가격 * 개수
-							int total = product.getUnitPrice() * product.getCont();
-							sum += total;
+				ArrayList<CartDto> cartArrayList = cartDao.getCartList(orderNo);
+				for(CartDto cart : cartArrayList){
+					int total = cart.getpUnitPrice() * cart.getCnt();
+					sum += total;
 				%>
 				<tr>
-					<td><%=product.getProductId()%> - <%= product.getPname() %></td>
-					<td><%= product.getUnitPrice() %></td>
-					<td><%= product.getQuantity() %></td>
+					<td><%= cart.getProductId()%> - <%= cart.getpName() %></td>
+					<td><%= cart.getpUnitPrice() %></td>
+					<td><%= cart.getCnt() %></td>
 					<td><%= total %></td>
-					<td><span class="badge badge-danger" id="removeBtn" onclick="removeToCart('<%= product.getProductId() %>')">삭제</span></td>
+					<td><span class="badge badge-danger" id="removeBtn" onclick="removeToCart('<%= cart.getProductId() %>')">삭제</span></td>
 				</tr>
 				<%
 				}
