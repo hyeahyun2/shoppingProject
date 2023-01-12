@@ -1,30 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="market.dto.ProductDto" %>
-<%@ page import="market.dao.ProductRepository" %>
+<%@ page import="market.dao.CartDao" %>
 <%
 /* 장바구니에서 상품을 개별 삭제 */
-String id = request.getParameter("id");
-if(id == null || id.trim().equals("")){
-	response.sendRedirect("products.jsp");
-	return;
-}
+int cartId = Integer.parseInt(request.getParameter("id"));
+String orderNo = session.getId();
 
-ProductRepository dao = ProductRepository.getInstance();
+CartDao cartDao = new CartDao();
 
-ProductDto product = dao.getProductById(id); // product id 존재 여부 검사
-if(product == null){ // 존재하지 않는 아이디면
-	response.sendRedirect("exceptionNoProductId.jsp");
-}
+int state = cartDao.removeProductInCart(cartId, orderNo);
 
-ArrayList<ProductDto> cartList = (ArrayList<ProductDto>)session.getAttribute("cartlist");
-ProductDto removeP = null;
-for(ProductDto p : cartList){
-	if(p.getProductId().equals(id)){ // 요청된 id값과 일치하면
-		removeP = p;
-	}
+if(state == 1){ // 정상적으로 처리 완료
+	response.sendRedirect("cart.jsp");
+
 }
-cartList.remove(removeP); // 카트에서 해당 id를 가지는 product 삭제
-response.sendRedirect("cart.jsp");
+else if(state == 0) { // 해당 cartId 존재하지 않음
+	response.sendRedirect("cart.jsp?error=noId");
+}
+else {
+	response.sendRedirect("cart.jsp?error=fail");
+}
 %>

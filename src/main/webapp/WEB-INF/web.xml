@@ -36,4 +36,5 @@
 		<error-code>404</error-code>
 		<location>/errorPage/exceptionNoPage.jsp</location>
 	</error-page>
+	
 </web-app>

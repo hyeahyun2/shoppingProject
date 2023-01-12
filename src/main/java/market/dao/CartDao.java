@@ -27,7 +27,7 @@ public class CartDao {
 		}
 	}
 	
-	//
+	// 장바구니 담기 클릭 시
 	public boolean updateCart(ProductDto productDto, String orderNo, String memberId) {
 		// orderNo : 주문번호,  id : 로그인계정id
 		int flag = 0; // 반환할 때 사용할 변수
@@ -74,6 +74,7 @@ public class CartDao {
 		return (flag == 1);
 	}
 	
+	// orderNo로 장바구니의 모든 정보 불러오기
 	public ArrayList<CartDto> getCartList(String orderNo){
 		ArrayList<CartDto> cartArrayList = null;
 		
@@ -141,5 +142,74 @@ public class CartDao {
 		}
 
 		return flag != 0;
+	}
+	
+	// 장바구니 안의 상품 개별로 지우기
+	public int removeProductInCart(int cartId, String orderNo) {
+		int flag = -1;
+		String sql = "select cartId from p_cart where cartId = ? and orderNo = ?";
+				
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cartId);
+			pstmt.setString(2, orderNo);
+			rs = pstmt.executeQuery();
+			if(rs.next()) { // cartId && orderNo 가 존재한다면
+				sql = "delete from p_cart where cartId = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, cartId);
+				flag = pstmt.executeUpdate(); // 영향받은 행 개수=1
+			}
+			else {// 해당 cartId && orderNo가 존재하지 않을 때
+				flag = 0;
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		// -1 : db통신에러, 0 : 로그인한 계정의 장바구니 상품이 아님
+		// 1 : 정상적으로 반환됨
+		return flag;
+	}
+	
+	// 장바구니 물품 전체 삭제
+	public boolean deleteAllCart(String memberId, String orderNo) {
+		int flag = 0;
+		String sql = "select COUNT(*) from p_cart where memberId = ? and orderNo = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, memberId);
+			pstmt.setString(2, orderNo);
+			rs = pstmt.executeQuery();
+			rs.next();
+			if(rs.getInt(1) > 0) { // 조건에 해당하는 row가 있을 경우
+				// memberId에 해당하는 물품 삭제 (해당 계정의 장바구니 초기화)
+				sql = "delete from p_cart where memberId = ? and orderNo = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, memberId);
+				pstmt.setString(2, orderNo);
+				flag = pstmt.executeUpdate(); // 영향받은 행 개수
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		// 정상적으로 처리 => 영향받은 행 개수 1보다 많음
+		return flag > 0; 
 	}
 }
