@@ -37,4 +37,16 @@
 		<location>/errorPage/exceptionNoPage.jsp</location>
 	</error-page>
 	
+	<!-- servlet mapping 설정 -->
+	<!-- servlet 구성 -->
+	<servlet>
+		<servlet-name>BoardController</servlet-name>
+		<servlet-class>mvc.controller.BoardController</servlet-class>
+	</servlet>
+	<!-- mapping -->
+	<servlet-mapping>
+		<servlet-name>BoardController</servlet-name>
+		<!-- 확장자가 .do인 모든 경우 -->
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
 </web-app>
