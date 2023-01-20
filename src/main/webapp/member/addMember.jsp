@@ -37,6 +37,9 @@
 				<label class="col-sm-2 ">아이디</label>
 				<div class="col-sm-3">
 					<input name="id" type="text" class="form-control" placeholder="id" >
+					<span class="idCheck"></span>
+					<br><input type="button" name="btnIsDuplication" value="팝업 아이디 중복 확인">
+					<br><input type="button" name="btnIsDuplication2nd" value="ajax 아이디 중복 확인">
 				</div>
 			</div>
 			<div class="form-group  row">
@@ -101,7 +104,6 @@
 				<label class="col-sm-2">전화번호</label>
 				<div class="col-sm-3">
 					<input name="phone" type="text" class="form-control" placeholder="phone" >
-
 				</div>
 			</div>
 			<div class="form-group  row">
@@ -119,5 +121,76 @@
 			</div>
 		</form>
 	</div>
+	<!-- 
+	<iframe src="http://www.naver.com/" width="600" height="300"></iframe>
+	<iframe src="https://www.daum.net/" width="600" height="300"></iframe>
+	 -->
+	<script>
+		document.addEventListener("DOMContentLoaded", function(){
+			// 팝업 아이디 중복 확인
+			const form = document.newMember;
+			const btnIsDuplication = form.btnIsDuplication;
+			btnIsDuplication.addEventListener("click", function(){
+				const id = form.id.value;
+				if(id === ""){
+					alert('아이디를 입력해 주세요.');
+					form.id.focus();
+					return;
+				}
+				window.open('popupIdCheck.jsp?id=' + id, 'IdCheck', 'width=500, height=500, top=100, left=200, location=no');
+			})
+			// ajax 아이디 중복 확인
+			const xhr = new XMLHttpRequest();
+			const btnIsDuplication2nd = form.btnIsDuplication2nd;
+			btnIsDuplication2nd.addEventListener("click", function(){
+				const id = form.id.value;
+				xhr.open("GET", "ajaxIdCheck.jsp?id=" + id);
+				xhr.send();
+				xhr.onreadystatechange = () => {
+					if(xhr.readyState !== XMLHttpRequest.DONE) return;
+					if(xhr.status === 200){
+						console.log(xhr.response);
+						const json = JSON.parse(xhr.response);
+						if(json.result === 'true'){
+							alert("동일한 아이디가 있습니다.");
+						}
+						else {
+							alert("동일한 아이디가 없습니다.");
+						}
+					}
+					else {
+						console.error("Error", xhr.status, xhr.statusText);
+					}
+				}
+			})
+			// 실시간 중복 확인
+			const inputId = form.id;
+			inputId.addEventListener("keyup", function(){
+				const id = form.id.value;
+				const idCheck = document.querySelector(".idCheck");
+				xhr.open("GET", "ajaxIdCheck.jsp?id=" + id);
+				xhr.send();
+				xhr.onreadystatechange = () => {
+					if(xhr.readyState !== XMLHttpRequest.DONE) return;
+					if(xhr.status === 200){
+						const json = JSON.parse(xhr.response);
+						if(json.result === 'true'){
+							idCheck.style.color = 'red';
+							idCheck.innerHTML = '동일한 아이디가 있습니다.';
+						}
+						else {
+							idCheck.style.color = 'gray';
+							idCheck.innerHTML = '동일한 아이디가 없습니다.';
+						}
+						
+					}
+					else {
+						console.error("Error", xhr.status, xhr.statusText);
+					}
+				}
+			})
+		})
+		
+	</script>
 </body>
 </html>
