@@ -158,8 +158,8 @@ public class BoardDao {
 		PreparedStatement pstmt = null;
 		
 		String sql = "insert into p_board "
-				+ "(id, name, subject, content, regist_day, hit, ip) "
-				+ "values (?, ?, ?, ?, now(), 0, ?)";
+				+ "(id, name, subject, content, filename, filesize, regist_day, hit, ip) "
+				+ "values (?, ?, ?, ?, ?, ?, now(), 0, ?)";
 		try {
 			conn = DBConnection.getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -167,7 +167,9 @@ public class BoardDao {
 			pstmt.setString(2, board.getName());
 			pstmt.setString(3, board.getSubject());
 			pstmt.setString(4, board.getContent());
-			pstmt.setString(5, board.getIp());
+			pstmt.setString(5, board.getFilename());
+			pstmt.setLong(6, board.getFilesize());
+			pstmt.setString(7, board.getIp());
 			pstmt.executeUpdate();
 			
 		} catch(Exception e) {
@@ -203,6 +205,8 @@ public class BoardDao {
 				dto.setName(rs.getString("name"));
 				dto.setSubject(rs.getString("subject"));
 				dto.setContent(rs.getString("content"));
+				dto.setFilename(rs.getString("filename"));
+				dto.setFilesize(rs.getLong("filesize"));
 				dto.setRegistDay(rs.getString("regist_day"));
 				dto.setHit(rs.getInt("hit"));
 				dto.setIp(rs.getString("ip"));

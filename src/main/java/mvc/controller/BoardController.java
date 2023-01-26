@@ -1,8 +1,10 @@
 package mvc.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -10,6 +12,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.fileupload.DiskFileUpload;
+import org.apache.commons.fileupload.FileItem;
 
 import market.dao.BoardDao;
 import market.dao.RippleDao;
@@ -136,21 +141,72 @@ public class BoardController extends HttpServlet {
 		request.setAttribute("name", name);
 	}
 	
+	// 게시글쓰기
 	public void requestBoardWrite(HttpServletRequest request) {
 		BoardDao dao = BoardDao.getInstance();
 		
-		BoardDto board = new BoardDto();
-		board.setId(request.getParameter("id"));
-		board.setName(request.getParameter("name"));
-		board.setSubject(request.getParameter("subject"));
-		board.setContent(request.getParameter("content"));
-		board.setIp(request.getRemoteAddr());
-		
-		System.out.println(request.getParameter("name"));
-		System.out.println(request.getParameter("subject"));
-		System.out.println(request.getParameter("content"));
-		
-		dao.insertBoard(board);
+		int maxImgSize = 5 * 1024 * 1024;
+	    String path = "C:\\img";
+	    
+	    // 파라미터 기본값 설정
+	    String writeID = (String)request.getSession().getAttribute("sessionId");
+	    String ip = request.getRemoteAddr();
+	    
+	    BoardDto board = new BoardDto();
+	    board.setId(writeID);
+	    board.setIp(request.getRemoteAddr()); // ip 세팅
+	    
+	    DiskFileUpload upload = new DiskFileUpload();
+	    upload.setSizeMax(maxImgSize); // 업로드할 파일 최대 사이즈
+	    upload.setSizeThreshold(maxImgSize); // 메모리상 저장할 파일 최대 사이즈 (int)
+	    upload.setRepositoryPath(path); // 파일 임시로 저장할 디렉토리 설정
+	    
+	    try {
+	    	List items = upload.parseRequest(request); // 객체의 전송된 요청 파라미터 전달
+	    	Iterator params = items.iterator(); // 전송된 요청 파라미터를 Iterator 클래스로 변환
+	    	
+		    int i = 0;
+	    	while(params.hasNext()){ // 요청 파라미터 없을 때까지 반복
+	    		// 해당 파라미터 가져와서 FileItem 객체로 저장
+	    		FileItem item = (FileItem)params.next(); 
+	    		if(item.isFormField()){ // 속성값 file이 아닌 form태그 요소들
+	    			String name = item.getFieldName(); // 해당 요소의 요청 파라미터 이름(name값)
+	    			switch(name) {// 해당 요소 값 얻기(인코딩:utf-8)
+	    			case "name":
+	    				board.setName(item.getString("utf-8"));
+	    				break;
+	    			case "subject":
+	    				board.setSubject(item.getString("utf-8"));
+	    				break;
+	    			case "content":
+	    				board.setContent(item.getString("utf-8"));
+	    				break;
+	    			}
+	    		}
+	    		else { // 속성값이 file인 form태그 요소(input 태그)
+	    			String fileFieldName = item.getFieldName(); // 요청 파라미터 이름(name값)
+	    			String fileName = item.getName(); // 업로드된 파일 경로 + 파일명
+	    			String contentType = item.getContentType();
+					
+					if(!fileName.isEmpty()) {
+						System.out.println("fileName : " + fileName);
+						// subString으로 문자열 잘라서 확장자 등 검사에 유용함!!
+						fileName = fileName.substring(fileName.lastIndexOf("\\") + 1); // 파일명만 저장
+						long fileSize = item.getSize();
+						
+						File file = new File(path + "/" + fileName); // 파일 저장될 경로 지정
+						item.write(file); // 해당되는 파일 관련 자원 저장하기 (실질적 파일 업로드!!)
+						
+						board.setFilename(fileName); // MarketDto 객체 image 필드 setter
+						board.setFilesize(fileSize);
+					}
+	    		}
+	    	}
+	    } catch(Exception e) {
+	    	e.printStackTrace();
+	    }
+    	
+    	dao.insertBoard(board);
 	}
 	//  상세페이지 글 읽어오기 select
 	public void RequestBoardView(HttpServletRequest req) {

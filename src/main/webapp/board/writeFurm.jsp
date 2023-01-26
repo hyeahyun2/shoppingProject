@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>게시글쓰기</title>
 <link rel="stylesheet" href="../resources/css/bootstrap.min.css" />
 </head>
 <script type="text/javascript">
@@ -35,6 +35,7 @@
 	</div>
 	<div class="container">
 		<form name="newWrite" action="./BoardWriteAction.do" 
+			enctype="multipart/form-data"
 			class="form-horizotal" method="post" onsubmit="return checkForm()">
 			<input type="hidden" name="id" class="form-control" value="${sessionId}">
 			<div class="form-group row">
@@ -55,6 +56,12 @@
 				<div class="col-sm-8">
 					<textarea name="content" cols="50" rows="5" class="form-control" 
 						placeholder="content"></textarea>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 control-label">이미지</label>
+				<div class="col-sm-8">
+					<input type="file" name="productImage" class="form-control">
 				</div>
 			</div>
 			<div class="form-group row">

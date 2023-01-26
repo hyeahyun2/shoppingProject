@@ -6,14 +6,13 @@ package market.dto;
 	NAME varchar(10) NOT NULL,
 	SUBJECT VARCHAR(100) NOT NULL,
 	content TEXT NOT NULL,
+	filename VARCHAR(50) NULL DEFAULT NULL,
+	filesize bigint NULL DEFAULT NULL,
 	regist_day VARCHAR(30),
 	hit INT,
 	ip VARCHAR(20),
 	PRIMARY KEY(num)
 	)DEFAULT CHARSET=UTF8;
- * */
-/**
- * int num
  * */
 public class BoardDto {
 	private int num;
@@ -21,6 +20,8 @@ public class BoardDto {
 	private String name;
 	private String subject;
 	private String content;
+	private String filename;
+	private long filesize;
 	private String registDay;
 	private int hit;
 	private String ip;
@@ -55,6 +56,18 @@ public class BoardDto {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public String getFilename() {
+		return filename;
+	}
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+	public long getFilesize() {
+		return filesize;
+	}
+	public void setFilesize(long filesize) {
+		this.filesize = filesize;
 	}
 	public String getRegistDay() {
 		return registDay;

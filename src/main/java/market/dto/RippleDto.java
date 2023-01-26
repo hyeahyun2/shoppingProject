@@ -1,5 +1,17 @@
 package market.dto;
 
+/*	CREATE TABLE p_ripple(
+	`rippleId` INT NOT NULL AUTO_INCREMENT,
+	`boardName` VARCHAR(10) NOT NULL,
+	`boardNum` INT NOT NULL,
+	`memberId` VARCHAR(10) NOT NULL,
+	`name` VARCHAR(10) NOT NULL,
+	`content` TEXT NOT NULL,
+	`insertDate` DATETIME DEFAULT CURRENT_TIMESTAMP,
+	`ip` VARCHAR(20),
+	PRIMARY KEY(`rippleId`)
+	)DEFAULT CHARSET=UTF8;
+ * */
 public class RippleDto {
 	private int rippleId;
 	private String boardName;

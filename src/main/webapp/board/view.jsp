@@ -53,6 +53,18 @@
 				<div class="form-control" style="height: 300px;"><%=notice.getContent() %></div>
 			</div>
 		</div>
+		<%
+		if(notice.getFilename() != null && !notice.getFilename().isEmpty()){
+		%>
+		<div class="form-group row">
+			<label class="col-sm-2 control-label">이미지</label>
+			<div class="col-sm-8" style="word-break: break-all;">
+				<img src="/img/<%=notice.getFilename().trim()%>" class="user-gallery-image">
+			</div>
+		</div>
+		<%
+		}
+		%>
 		<hr>
 		<!-- 리플 목록 -->
 		<div class="form-group row user-repple-list">
